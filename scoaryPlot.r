@@ -2,18 +2,6 @@ if (!require("hexbin")){
   install.packages("hexbin",dependencies = TRUE)
   library('hexbin')
 }
-if (!require("tm")){
-  install.packages("tm",dependencies = TRUE)
-  library('tm')
-}
-if (!require("SnowballC")){
-  install.packages("SnowballC",dependencies = TRUE)
-  library('SnowballC')
-}
-if (!require("wordcloud")){
-  install.packages("wordcloud",dependencies = TRUE)
-  library('wordcloud')
-}
 
 #read chosen file
 file = file.choose()
@@ -64,17 +52,11 @@ plot(hexbin(negative_present_in_alldata,positive_present_in_alldata), main = fil
 dev.off()
 
 
-#Exclusive accessory genome - file and wordcloud
+#Exclusive accessory genome
 max.Number_pos_present_in=max(positive_present_in)
 subset.exclusive=subset(data.df,Number_pos_present_in==max.Number_pos_present_in & Number_neg_present_in == 0)
 if (length(row.names(subset.exclusive)) != 0){
   write.table(subset.exclusive, file=paste(file,"exclusive_present.csv"), sep=";", row.names = FALSE)
-  #TODO
-  jeopCorpus <- Corpus(VectorSource(subset.exclusive$Annotation))
-  jeopCorpus <- tm_map(jeopCorpus, PlainTextDocument)
-  jeopCorpus <- tm_map(jeopCorpus, removePunctuation)
-  wordcloud(jeopCorpus, max.words = 100, random.order = FALSE)
-  
   } else{
   print(paste("No value to print in ", file, "exclusive present"))
   }
