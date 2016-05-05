@@ -15,10 +15,10 @@ if (!require("wordcloud")){
   library('wordcloud')
 }
 
-#lala=list.files()
-
 #read chosen file
 file = file.choose()
+filename = basename(file)
+
 data=read.csv(file, header=TRUE, sep=';')
 
 #select data by benjamin corrected p-value
@@ -38,27 +38,27 @@ png(paste(file,"_scatterplot_gray.png"), width=480, height=480)
 cols <- colorRampPalette(c("darkblue", "red"))
 bANDw <- colorRampPalette(c("lightgray","black"))
 
-#gray scale
+#plot - gray scale
 bin<-hexbin(negative_present_in,positive_present_in)
 #cols <- colorRampPalette(c("lightgray","black"))
-plot(bin, main=file,colorcut = seq(0,1,length.out=15),
+plot(bin, main=filename,colorcut = seq(0,1,length.out=15),
      colramp = function(n) bANDw(15))
 dev.off()
 
-#colours
+#plot - colours
 png(paste(file,"_scatterplot_colour.png"), width=480, height=480)
 #cols <- colorRampPalette(c("darkblue","red"))
-plot(hexbin(negative_present_in,positive_present_in), main = file ,
+plot(hexbin(negative_present_in,positive_present_in), main = filename ,
      colorcut = seq(0,1,length.out=15),
      colramp = function(n) cols(15))
 dev.off()
 
-#control - all data
+#plot - control - all data
 positive_present_in_alldata=data.df[,4]
 negative_present_in_alldata=data.df[,5]
 png(paste(file,"_alldata.png"), width=480, height=480)
 #cols <- colorRampPalette(c("darkblue","red"))
-plot(hexbin(negative_present_in_alldata,positive_present_in_alldata), main = file ,
+plot(hexbin(negative_present_in_alldata,positive_present_in_alldata), main = filename ,
      colorcut = seq(0,1,length.out=15),
      colramp = function(n) cols(15))
 dev.off()
