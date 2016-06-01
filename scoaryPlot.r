@@ -52,18 +52,20 @@ plot(hexbin(negative_present_in_alldata,positive_present_in_alldata), main = fil
 dev.off()
 
 
-#Exclusive accessory genome
+#Exclusive accessory genome (10% range)
 max.Number_pos_present_in=max(positive_present_in)
-subset.exclusive=subset(data.df,Number_pos_present_in==max.Number_pos_present_in & Number_neg_present_in == 0)
+range.Number_pos_present_in=max.Number_pos_present_in-max.Number_pos_present_in*0.1
+subset.exclusive=subset(data.df,Number_pos_present_in>=range.Number_pos_present_in & Number_neg_present_in == 0)
 if (length(row.names(subset.exclusive)) != 0){
-  write.table(subset.exclusive, file=paste(file,"exclusive_present.csv"), sep=";", row.names = FALSE)
+  write.table(subset.exclusive, file=paste(file,"exclusive_present_range.csv"), sep=";", row.names = FALSE)
   } else{
   print(paste("No value to print in ", file, "exclusive present"))
   }
 max.Number_neg_present_in=max(negative_present_in)
-subset.absent=subset(data.df,Number_pos_present_in==0 & max.Number_neg_present_in == 0)
+range.Number_neg_present_in=max.Number_neg_present_in-max.Number_neg_present_in*0.1
+subset.absent=subset(data.df,Number_pos_present_in==0 & max.Number_neg_present_in >= range.Number_neg_present_in)
 if (length(row.names(subset.absent)) != 0){
-  write.table(subset.absent, file=paste(file,"exclusive_absent.csv"), sep=";", row.names = FALSE)
+  write.table(subset.absent, file=paste(file,"exclusive_absent_range.csv"), sep=";", row.names = FALSE)
   } else{
   
   print(paste("No value to print in ", file, "exclusive absent"))
